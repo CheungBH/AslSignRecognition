@@ -37,6 +37,7 @@ def seed_everything(seed=42):
 
 
 def get_strategy(device='TPU-VM'):
+    IS_TPU = False
     if "TPU" in device:
         tpu = 'local' if device == 'TPU-VM' else None
         print("connecting to TPU...")
@@ -55,7 +56,7 @@ def get_strategy(device='TPU-VM'):
         else:
             print("Using CPU")
             strategy = tf.distribute.get_strategy()
-            CFG.device = "CPU"
+            # CFG.device = "CPU"
 
     if device == "GPU":
         print("Num GPUs Available: ", ngpu)
@@ -67,15 +68,15 @@ def get_strategy(device='TPU-VM'):
     return strategy, REPLICAS, IS_TPU
 
 
-STRATEGY, N_REPLICAS, IS_TPU = get_strategy()
+STRATEGY, N_REPLICAS, IS_TPU = get_strategy(device="GPU")
 
 TRAIN_FILENAMES = glob.glob('/kaggle/input/islr-5fold/*.tfrecords')
 print(len(TRAIN_FILENAMES))
 
 # Train DataFrame
-train_df = pd.read_csv('/kaggle/input/asl-signs/train.csv')
-display(train_df.head())
-display(train_df.info())
+train_df = pd.read_csv('/home/user/Downloads/train.csv')
+# display(train_df.head())
+# display(train_df.info())
 
 import re
 def count_data_items(filenames):
@@ -776,6 +777,7 @@ def train_folds(CFG, folds, strategy=STRATEGY, summary=True):
 
 class CFG:
     n_splits = 5
+    device = "CPU"
     save_output = True
     output_dir = '/kaggle/working'
 

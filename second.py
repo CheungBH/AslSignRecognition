@@ -14,8 +14,8 @@ import json
 # Constante
 SEED = 42
 ROWS_PER_FRAME = 543
-data_dir = "/kaggle/input/asl-signs"
-landmark_fimes_dir = "/kaggle/input/asl-signs/train_landmark_files"
+data_dir = "/home/user/Downloads"
+landmark_fimes_dir = "/home/user/Downloads/train_landmark_files"
 
 
 def seed_it_all(seed=SEED):
@@ -43,7 +43,7 @@ def read_json(path):
 
 path_train_df = pd.read_csv(data_dir + "/train.csv")
 path_train_df["path"] = data_dir + "/" + path_train_df["path"]
-display(path_train_df.head(2)), len(path_train_df)
+# display(path_train_df.head(2)), len(path_train_df)
 
 
 s2p_map = read_json(os.path.join(data_dir, "sign_to_prediction_index_map.json"))
